@@ -119,3 +119,14 @@ export default App;
 Bardzo dobre wprowadzenie na temat typów w Reacie, można przeczytać pod linkiem:
 https://github.com/Microsoft/TypeScript-React-Starter#typescript-react-starter
 
+##### Style
+
+Skorzystamy z Biblioteki Semantic UI
+Dodajemy w _index.html_:
+```html
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+/>
+```

@@ -1,13 +1,24 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Router, Route, Switch } from 'react-router-dom';
+import history from '../history';
+import PostsList from '../containers/PostsList';
+import PostsNew from '../containers/PostsNew';
 
-class App extends Component {
-  render() {
+const App = () => {
     return (
-      <div className="App">
-        App
-      </div>
+        <div className="ui container">
+            <Router history={history}>
+                <div>
+                    <h1>Header</h1>
+                    <Switch>
+                        <Route path="/" exact component={PostsList} />
+                        <Route path="/posts" exact component={PostsList} />
+                        <Route path="/posts/new" exact component={PostsNew} />
+                    </Switch>
+                </div>
+            </Router>
+        </div>
     );
-  }
-}
+};
 
 export default App;

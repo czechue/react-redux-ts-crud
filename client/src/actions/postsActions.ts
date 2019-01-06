@@ -2,7 +2,7 @@ import { ThunkAction } from 'redux-thunk';
 import { Dispatch } from 'redux';
 import posts from '../api';
 import { RootState, RootActions } from '../store';
-import { Posts } from '../reducers/postsReducer';
+import { Post, Posts } from '../reducers/postsReducer';
 
 export type ThunkResult<R> = ThunkAction<R, RootState, undefined, RootActions>;
 
@@ -12,7 +12,7 @@ export enum PostsActionTypes {
     FETCH_POSTS_FAIL = 'FETCH_POSTS_FAIL',
     FETCH_POST = 'FETCH_POST',
     FETCH_POST_SUCCESS = 'FETCH_POST_SUCCESS',
-    FETCH_POST_FAIL = 'FETCH_POST_FAIL',
+    FETCH_POST_FAIL = 'FETCH_POST_FAIL'
 }
 
 interface FetchPosts {
@@ -21,7 +21,7 @@ interface FetchPosts {
 
 interface FetchPostsSuccess {
     type: PostsActionTypes.FETCH_POSTS_SUCCESS;
-    payload?: Posts;
+    payload: Posts;
 }
 
 interface FetchPostsFail {
@@ -34,7 +34,7 @@ interface FetchPost {
 
 interface FetchPostSuccess {
     type: PostsActionTypes.FETCH_POST_SUCCESS;
-    payload?: Posts;
+    payload: Post;
 }
 
 interface FetchPostFail {
@@ -48,6 +48,16 @@ export const fetchPosts = (): ThunkResult<void> => async dispatch => {
         handleFetchPostsSuccess(dispatch, response.data);
     } catch (e) {
         handleFetchPostsFail(dispatch);
+    }
+};
+
+export const fetchPost = (id: number): ThunkResult<void> => async dispatch => {
+    handleFetchPost(dispatch);
+    try {
+        const response = await posts.get(`/posts/${id}`);
+        handleFetchPostSuccess(dispatch, response.data);
+    } catch (e) {
+        handleFetchPostFail(dispatch);
     }
 };
 
@@ -68,4 +78,27 @@ const handleFetchPostsFail = (dispatch: Dispatch) => {
     });
 };
 
-export type PostsAction = FetchPosts | FetchPostsSuccess | FetchPostsFail;
+const handleFetchPost = (dispatch: Dispatch) => {
+    dispatch({ type: PostsActionTypes.FETCH_POST });
+};
+
+const handleFetchPostSuccess = (dispatch: Dispatch, response: Post) => {
+    dispatch({
+        type: PostsActionTypes.FETCH_POST_SUCCESS,
+        payload: response
+    });
+};
+
+const handleFetchPostFail = (dispatch: Dispatch) => {
+    dispatch({
+        type: PostsActionTypes.FETCH_POST_FAIL
+    });
+};
+
+export type PostsAction =
+    | FetchPosts
+    | FetchPostsSuccess
+    | FetchPostsFail
+    | FetchPost
+    | FetchPostSuccess
+    | FetchPostFail;

@@ -13,16 +13,15 @@ export interface PostsListProps {
 
 class PostsList extends Component<PostsListProps> {
     componentDidMount(): void {
-        console.log(this.props);
         this.props.fetchPosts();
     }
 
-    renderPosts() {
+    renderPosts(): JSX.Element[] | null {
         const { posts } = this.props;
         if (!posts) {
             return null;
         }
-        return posts.map((post: any) => {
+        return posts.map((post: Post) => {
             return <PostsListItem post={post} key={post.id} />;
         });
     }

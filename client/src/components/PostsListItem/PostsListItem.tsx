@@ -1,14 +1,21 @@
 import React from 'react';
 import { Post } from '../../reducers/postsReducer';
+import { Link } from 'react-router-dom';
 
-const PostsListItem = ({ post }: { post: Post }) => {
+interface PostListItemProps {
+    post: Post;
+}
+
+const PostsListItem = ({ post }: PostListItemProps) => {
     return (
         <div className="item">
             <div className="image">
-                <img src="https://picsum.photos/300/200/?random" />
+                <img src="https://picsum.photos/300/200/?random" alt="none" />
             </div>
             <div className="content">
-                <a className="header">{post.title}</a>
+                <Link to={`/posts/${post.id}`} className="header">
+                    {post.title}
+                </Link>
                 <div className="meta">
                     <span>Description</span>
                 </div>

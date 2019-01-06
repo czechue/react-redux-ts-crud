@@ -37,6 +37,17 @@ export const postsReducer: Reducer<PostsState, PostsAction> = (
             };
         case PostsActionTypes.FETCH_POSTS_FAIL:
             return { ...state, loading: false };
+        case PostsActionTypes.FETCH_POST:
+            return { ...state, loading: true };
+        case PostsActionTypes.FETCH_POST_SUCCESS:
+            const { id } = action.payload;
+            return {
+                ...state,
+                items: { [id]: action.payload },
+                loading: false
+            };
+
+
         default:
             return state;
     }

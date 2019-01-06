@@ -1,3 +1,3 @@
-import PostsList from './PostsList'
+import PostsList from './PostsList';
 
 export default PostsList;

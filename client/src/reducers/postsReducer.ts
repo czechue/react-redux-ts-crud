@@ -28,8 +28,15 @@ export const postsReducer: Reducer<PostsState, PostsAction> = (
 ) => {
     switch (action.type) {
         case PostsActionTypes.FETCH_POSTS:
-            console.log(action.payload);
-            return { ...state, items: { ..._.mapKeys(action.payload, 'id') } };
+            return { ...state, loading: true };
+        case PostsActionTypes.FETCH_POSTS_SUCCESS:
+            return {
+                ...state,
+                items: { ..._.mapKeys(action.payload, 'id') },
+                loading: false
+            };
+        case PostsActionTypes.FETCH_POSTS_FAIL:
+            return { ...state, loading: false };
         default:
             return state;
     }

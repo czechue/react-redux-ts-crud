@@ -1,11 +1,10 @@
+import posts from '../api';
 import { ThunkAction } from 'redux-thunk';
 import { Dispatch } from 'redux';
-import posts from '../api';
 import { RootState, RootActions } from '../store';
 import { Post, Posts } from '../reducers/postsReducer';
 
 export type ThunkResult<R> = ThunkAction<R, RootState, undefined, RootActions>;
-
 export enum PostsActionTypes {
     FETCH_POSTS = 'FETCH_POSTS',
     FETCH_POSTS_SUCCESS = 'FETCH_POSTS_SUCCESS',
@@ -14,6 +13,8 @@ export enum PostsActionTypes {
     FETCH_POST_SUCCESS = 'FETCH_POST_SUCCESS',
     FETCH_POST_FAIL = 'FETCH_POST_FAIL'
 }
+
+// FETCH POSTS
 
 interface FetchPosts {
     type: PostsActionTypes.FETCH_POSTS;
@@ -28,19 +29,6 @@ interface FetchPostsFail {
     type: PostsActionTypes.FETCH_POSTS_FAIL;
 }
 
-interface FetchPost {
-    type: PostsActionTypes.FETCH_POST;
-}
-
-interface FetchPostSuccess {
-    type: PostsActionTypes.FETCH_POST_SUCCESS;
-    payload: Post;
-}
-
-interface FetchPostFail {
-    type: PostsActionTypes.FETCH_POST_FAIL;
-}
-
 export const fetchPosts = (): ThunkResult<void> => async dispatch => {
     handleFetchPosts(dispatch);
     try {
@@ -48,16 +36,6 @@ export const fetchPosts = (): ThunkResult<void> => async dispatch => {
         handleFetchPostsSuccess(dispatch, response.data);
     } catch (e) {
         handleFetchPostsFail(dispatch);
-    }
-};
-
-export const fetchPost = (id: number): ThunkResult<void> => async dispatch => {
-    handleFetchPost(dispatch);
-    try {
-        const response = await posts.get(`/posts/${id}`);
-        handleFetchPostSuccess(dispatch, response.data);
-    } catch (e) {
-        handleFetchPostFail(dispatch);
     }
 };
 
@@ -76,6 +54,31 @@ const handleFetchPostsFail = (dispatch: Dispatch) => {
     dispatch({
         type: PostsActionTypes.FETCH_POSTS_FAIL
     });
+};
+
+// FETCH POST
+
+interface FetchPost {
+    type: PostsActionTypes.FETCH_POST;
+}
+
+interface FetchPostSuccess {
+    type: PostsActionTypes.FETCH_POST_SUCCESS;
+    payload: Post;
+}
+
+interface FetchPostFail {
+    type: PostsActionTypes.FETCH_POST_FAIL;
+}
+
+export const fetchPost = (id: number): ThunkResult<void> => async dispatch => {
+    handleFetchPost(dispatch);
+    try {
+        const response = await posts.get(`/posts/${id}`);
+        handleFetchPostSuccess(dispatch, response.data);
+    } catch (e) {
+        handleFetchPostFail(dispatch);
+    }
 };
 
 const handleFetchPost = (dispatch: Dispatch) => {

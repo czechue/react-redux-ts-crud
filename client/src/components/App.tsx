@@ -1,9 +1,9 @@
 import React from 'react';
-import {Router, Route, Switch, Link} from 'react-router-dom';
+import { Router, Route, Switch, Link } from 'react-router-dom';
 import history from '../history';
 import PostsList from '../containers/PostsList';
 import PostsNew from '../containers/PostsNew';
-import PostShow from "../containers/PostShow/PostShow";
+import PostShow from '../containers/PostShow/PostShow';
 
 const App = () => {
     return (

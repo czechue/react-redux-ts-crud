@@ -39,14 +39,14 @@ export const postsReducer: Reducer<PostsState, PostsAction> = (
             const { id } = action.payload;
             return {
                 ...state,
-                items: { [id]: action.payload },
+                items: { ...state.items, [id]: action.payload },
                 loading: false
             };
 
         case PostsActionTypes.FETCH_POSTS_SUCCESS:
             return {
                 ...state,
-                items: { ..._.mapKeys(action.payload, 'id') },
+                items: { ...state.items, ..._.mapKeys(action.payload, 'id') },
                 loading: false
             };
 

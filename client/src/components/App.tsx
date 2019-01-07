@@ -15,8 +15,8 @@ const App = () => {
                     <Switch>
                         <Route path="/" exact component={PostsList} />
                         <Route path="/posts" exact component={PostsList} />
-                        <Route path="/posts/:id" exact component={PostShow} />
                         <Route path="/posts/new" exact component={PostsNew} />
+                        <Route path="/posts/:id" exact component={PostShow} />
                     </Switch>
                 </div>
             </Router>

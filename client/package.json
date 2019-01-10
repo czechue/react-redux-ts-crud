@@ -12,7 +12,9 @@
         "@types/redux": "^3.6.0",
         "@types/redux-devtools-extension": "^2.13.2",
         "@types/redux-thunk": "^2.1.0",
+        "@types/yup": "^0.26.4",
         "axios": "^0.18.0",
+        "formik": "^1.4.2",
         "lodash": "^4.17.11",
         "react": "^16.7.0",
         "react-dom": "^16.7.0",
@@ -22,7 +24,8 @@
         "redux": "^4.0.1",
         "redux-devtools-extension": "^2.13.7",
         "redux-thunk": "^2.3.0",
-        "typescript": "^3.2.2"
+        "typescript": "^3.2.2",
+        "yup": "^0.26.6"
     },
     "scripts": {
         "start": "react-scripts start",

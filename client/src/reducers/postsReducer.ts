@@ -19,7 +19,8 @@ export interface PostsState {
 
 const initialState = {
     items: {},
-    loading: false
+    loading: false,
+    error: null
 };
 
 export const postsReducer: Reducer<PostsState, PostsAction> = (
@@ -29,13 +30,16 @@ export const postsReducer: Reducer<PostsState, PostsAction> = (
     switch (action.type) {
         case PostsActionTypes.FETCH_POST:
         case PostsActionTypes.FETCH_POSTS:
+        case PostsActionTypes.ADD_POST:
             return { ...state, loading: true };
 
         case PostsActionTypes.FETCH_POST_FAIL:
         case PostsActionTypes.FETCH_POSTS_FAIL:
+        case PostsActionTypes.ADD_POST_FAIL:
             return { ...state, loading: false };
 
         case PostsActionTypes.FETCH_POST_SUCCESS:
+        case PostsActionTypes.ADD_POST_SUCCESS:
             const { id } = action.payload;
             return {
                 ...state,

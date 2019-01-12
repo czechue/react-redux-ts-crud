@@ -1,8 +1,11 @@
 import React from 'react';
 import { Field, FieldProps, Formik, FormikErrors, FormikProps } from 'formik';
 import { object, string } from 'yup';
+import TextField from '../TextField/TextField';
+import { Post } from '../../reducers/postsReducer';
+import { OwnPostsNewProps } from '../../containers/PostsNew/PostsNew';
 
-interface FormValues {
+export interface FormValues {
     title: string;
     author: string;
 }
@@ -12,13 +15,24 @@ const initialValues: FormValues = {
     author: 'Anonymous'
 };
 
-export const PostForm: React.FunctionComponent = () => {
+export type OwnInnerFieldProps = FieldProps<FormValues> & FormValues;
+
+export const PostForm: React.FunctionComponent<OwnPostsNewProps> = props => {
+    const addRandomId = (values: FormValues): Post => {
+        return {
+            ...values,
+            id: Math.round(Math.random() * 10e4)
+        };
+    };
+
     return (
         <div>
             <h2>Posts New:</h2>
             <Formik
                 initialValues={initialValues}
-                onSubmit={(values: FormValues) => console.log(values)}
+                onSubmit={(values: FormValues) =>
+                    props.addPost(addRandomId(values))
+                }
                 validationSchema={object().shape({
                     title: string()
                         .required('Entering your first name is required.')
@@ -26,21 +40,15 @@ export const PostForm: React.FunctionComponent = () => {
                 })}
                 render={({
                     touched,
-                    handleSubmit,
-                    errors
+                    handleSubmit
                 }: FormikProps<FormValues>) => (
                     <form onSubmit={handleSubmit} className="ui form">
-                        <div className="field">
-                            <label htmlFor="title">Title</label>
-                            <Field
-                                type="text"
-                                name="title"
-                                placeholder="Title"
-                            />
-                            {touched.title && errors.title ? (
-                                <div>{errors.title}</div>
-                            ) : null}
-                        </div>
+                        <Field
+                            name="title"
+                            render={(innerProps: OwnInnerFieldProps) => (
+                                <TextField {...innerProps} title="Title" />
+                            )}
+                        />
                         <div className="field">
                             <label htmlFor="author">Author</label>
                             <Field

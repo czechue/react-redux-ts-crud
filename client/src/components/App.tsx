@@ -11,7 +11,13 @@ const App = () => {
             <Router history={history}>
                 <div>
                     <h1>Header</h1>
-                    <Link to={'/'}>Go to main</Link>
+                    <p>
+                        <Link to={'/'}>Go to main</Link>
+                    </p>
+                    <p>
+                        <Link to={'/posts/new'}>Create new post</Link>
+                    </p>
+
                     <Switch>
                         <Route path="/" exact component={PostsList} />
                         <Route path="/posts" exact component={PostsList} />

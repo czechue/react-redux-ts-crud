@@ -3,6 +3,8 @@ import { ThunkAction } from 'redux-thunk';
 import { Dispatch } from 'redux';
 import { RootState, RootActions } from '../store';
 import { Post, Posts } from '../reducers/postsReducer';
+import { AxiosResponse } from 'axios';
+import history from '../history';
 
 export type ThunkResult<R> = ThunkAction<R, RootState, undefined, RootActions>;
 export enum PostsActionTypes {
@@ -18,6 +20,9 @@ export enum PostsActionTypes {
     EDIT_POST = 'EDIT_POST',
     EDIT_POST_SUCCESS = 'EDIT_POST_SUCCESS',
     EDIT_POST_FAIL = 'EDIT_POST_FAIL',
+    DELETE_POST = 'DELETE_POST',
+    DELETE_POST_SUCCESS = 'DELETE_POST_SUCCESS',
+    DELETE_POST_FAIL = 'DELETE_POST_FAIL'
 }
 
 // FETCH POSTS
@@ -38,7 +43,7 @@ interface FetchPostsFail {
 export const fetchPosts = (): ThunkResult<void> => async dispatch => {
     handleFetchPosts(dispatch);
     try {
-        const response = await posts.get('/posts');
+        const response: AxiosResponse<Post[]> = await posts.get('/posts');
         handleFetchPostsSuccess(dispatch, response.data);
     } catch (e) {
         handleFetchPostsFail(dispatch);
@@ -83,7 +88,7 @@ interface FetchPostFail {
 export const fetchPost = (id: number): ThunkResult<void> => async dispatch => {
     handleFetchPost(dispatch);
     try {
-        const response = await posts.get(`/posts/${id}`);
+        const response: AxiosResponse<Post> = await posts.get(`/posts/${id}`);
         handleFetchPostSuccess(dispatch, response.data);
     } catch (e) {
         handleFetchPostFail(dispatch);
@@ -128,7 +133,7 @@ interface AddPostFail {
 export const addPost = (post: Post): ThunkResult<void> => async dispatch => {
     handleAddPost(dispatch);
     try {
-        const response = await posts.post(`/posts`, post);
+        const response: AxiosResponse<Post> = await posts.post(`/posts`, post);
         handleAddPostSuccess(dispatch, response.data);
     } catch (e) {
         handleAddPostFail(dispatch);
@@ -144,6 +149,7 @@ const handleAddPostSuccess = (
     response: Post
 ) => {
     dispatch({ type: PostsActionTypes.ADD_POST_SUCCESS, payload: response });
+    history.push('/');
 };
 
 const handleAddPostFail = (dispatch: Dispatch<AddPostFail>) => {
@@ -153,17 +159,79 @@ const handleAddPostFail = (dispatch: Dispatch<AddPostFail>) => {
 // EDIT POST
 
 interface EditPost {
-    type: PostsActionTypes.EDIT_POST
+    type: PostsActionTypes.EDIT_POST;
 }
 
 interface EditPostSuccess {
-    type: PostsActionTypes.EDIT_POST_SUCCESS,
-    payload: Post
+    type: PostsActionTypes.EDIT_POST_SUCCESS;
+    payload: Post;
 }
 
 interface EditPostFail {
-    type: PostsActionTypes.EDIT_POST_FAIL
+    type: PostsActionTypes.EDIT_POST_FAIL;
 }
+
+export const editPost = (
+    editedPost: Post
+): ThunkResult<void> => async dispatch => {
+    handleEditPost(dispatch);
+    try {
+        const response: AxiosResponse<Post> = await posts.patch(
+            `/posts/${editedPost.id}`,
+            editedPost
+        );
+        handleEditPostSuccess(dispatch, response.data);
+    } catch (e) {
+        handleEditPostFail(dispatch)
+    }
+};
+
+const handleEditPost = (dispatch: Dispatch<EditPost>): void => {
+    dispatch({ type: PostsActionTypes.EDIT_POST });
+};
+
+const handleEditPostSuccess = (
+    dispatch: Dispatch<EditPostSuccess>,
+    editedPost: Post
+) => {
+    dispatch({ type: PostsActionTypes.EDIT_POST_SUCCESS, payload: editedPost });
+    history.push('/');
+};
+
+const handleEditPostFail = (dispatch: Dispatch<EditPostFail>) => {
+    dispatch({ type: PostsActionTypes.EDIT_POST_FAIL });
+};
+
+// DELETE POST
+
+interface DeletePost {
+    type: PostsActionTypes.DELETE_POST;
+}
+
+interface DeletePostSuccess {
+    type: PostsActionTypes.DELETE_POST_SUCCESS;
+    payload: number;
+}
+
+interface DeletePostFail {
+    type: PostsActionTypes.DELETE_POST_FAIL;
+}
+
+export const deletePost = (
+    deletedId: number
+): ThunkResult<void> => async dispatch => {
+    dispatch({ type: PostsActionTypes.DELETE_POST });
+    try {
+        await posts.delete(`/posts/${deletedId}`);
+        dispatch({
+            type: PostsActionTypes.DELETE_POST_SUCCESS,
+            payload: deletedId
+        });
+        history.push('/');
+    } catch (e) {
+        dispatch({ type: PostsActionTypes.DELETE_POST_FAIL });
+    }
+};
 
 export type PostsAction =
     | FetchPosts
@@ -174,4 +242,10 @@ export type PostsAction =
     | FetchPostFail
     | AddPost
     | AddPostSuccess
-    | AddPostFail;
+    | AddPostFail
+    | EditPost
+    | EditPostSuccess
+    | EditPostFail
+    | DeletePost
+    | DeletePostSuccess
+    | DeletePostFail;

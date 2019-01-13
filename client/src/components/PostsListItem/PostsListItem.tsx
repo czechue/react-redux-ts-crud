@@ -22,6 +22,20 @@ const PostsListItem = ({ post }: PostListItemProps) => (
                 <p />
             </div>
             <div className="extra">Author: {post.author}</div>
+            <div>
+                <Link
+                    to={'/posts/edit/' + post.id}
+                    className="ui green basic button"
+                >
+                    Edit
+                </Link>
+                <Link
+                    to={'/posts/delete/' + post.id}
+                    className="ui red basic button"
+                >
+                    Delete
+                </Link>
+            </div>
         </div>
     </div>
 );

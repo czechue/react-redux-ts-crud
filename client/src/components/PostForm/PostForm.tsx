@@ -3,25 +3,27 @@ import { Field, FieldProps, Formik, FormikErrors, FormikProps } from 'formik';
 import { object, string } from 'yup';
 import TextField from '../TextField/TextField';
 import { Post } from '../../reducers/postsReducer';
-import { OwnPostsNewProps } from '../../containers/PostsNew/PostsNew';
 
 export interface FormValues {
     title: string;
     author: string;
 }
 
-const initialValues: FormValues = {
-    title: '',
-    author: 'Anonymous'
+export type OwnPostFormProps = {
+    onSubmit: (post: Post) => void;
+    initialValues: FormValues;
+    currentPost?: Post;
 };
 
 export type OwnInnerFieldProps = FieldProps<FormValues> & FormValues;
 
-export const PostForm: React.FunctionComponent<OwnPostsNewProps> = props => {
-    const addRandomId = (values: FormValues): Post => {
+export const PostForm: React.FunctionComponent<OwnPostFormProps> = props => {
+    const enchanceId = (values: FormValues): Post => {
         return {
             ...values,
-            id: Math.round(Math.random() * 10e4)
+            id: props.currentPost
+                ? props.currentPost.id
+                : Math.round(Math.random() * 10e4)
         };
     };
 
@@ -29,9 +31,9 @@ export const PostForm: React.FunctionComponent<OwnPostsNewProps> = props => {
         <div>
             <h2>Posts New:</h2>
             <Formik
-                initialValues={initialValues}
+                initialValues={props.initialValues}
                 onSubmit={(values: FormValues) =>
-                    props.addPost(addRandomId(values))
+                    props.onSubmit(enchanceId(values))
                 }
                 validationSchema={object().shape({
                     title: string()

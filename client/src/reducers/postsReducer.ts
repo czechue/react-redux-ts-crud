@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { PostsAction, PostsActionTypes } from '../actions/postsActions';
-import { Reducer } from 'redux';
+import {PostsAction, PostsActionTypes} from '../actions/postsActions';
+import {Reducer} from 'redux';
 
 export interface Post {
     id: number;
@@ -31,6 +31,7 @@ export const postsReducer: Reducer<PostsState, PostsAction> = (
         case PostsActionTypes.FETCH_POST:
         case PostsActionTypes.FETCH_POSTS:
         case PostsActionTypes.ADD_POST:
+        case PostsActionTypes.EDIT_POST:
             return { ...state, loading: true };
 
         case PostsActionTypes.FETCH_POST_FAIL:
@@ -53,6 +54,9 @@ export const postsReducer: Reducer<PostsState, PostsAction> = (
                 items: { ...state.items, ..._.mapKeys(action.payload, 'id') },
                 loading: false
             };
+
+        case PostsActionTypes.DELETE_POST_SUCCESS:
+            return { ...state, items: { ..._.omit(state.items, action.payload) } };
 
         default:
             return state;

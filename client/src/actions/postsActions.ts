@@ -182,7 +182,7 @@ export const editPost = (
         );
         handleEditPostSuccess(dispatch, response.data);
     } catch (e) {
-        handleEditPostFail(dispatch)
+        handleEditPostFail(dispatch);
     }
 };
 

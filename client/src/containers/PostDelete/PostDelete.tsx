@@ -42,8 +42,8 @@ class PostDelete extends React.Component<PostDeleteProps> {
         }
         return (
             <div>
-                Post with title <strong>"{this.props.post.title}"</strong> will be
-                deleted.
+                Post with title <strong>"{this.props.post.title}"</strong> will
+                be deleted.
                 <p>Are you sure?</p>
             </div>
         );

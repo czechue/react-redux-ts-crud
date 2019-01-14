@@ -1,5 +1,5 @@
-import React, { ReactPortal } from "react";
-import ReactDOM from "react-dom";
+import React, { ReactPortal } from 'react';
+import ReactDOM from 'react-dom';
 
 export const Modal = (props: any): ReactPortal => {
     return ReactDOM.createPortal(
@@ -16,6 +16,6 @@ export const Modal = (props: any): ReactPortal => {
                 <div className="actions">{props.actions}</div>
             </div>
         </div>,
-        document.querySelector("#modal") as HTMLElement
+        document.querySelector('#modal') as HTMLElement
     );
 };

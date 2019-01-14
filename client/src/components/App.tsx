@@ -5,7 +5,7 @@ import PostsList from '../containers/PostsList';
 import PostsNew from '../containers/PostsNew';
 import PostShow from '../containers/PostShow/PostShow';
 import PostEdit from '../containers/PostEdit/PostEdit';
-import PostDelete from "../containers/PostDelete/PostDelete";
+import PostDelete from '../containers/PostDelete/PostDelete';
 
 const App = () => {
     return (

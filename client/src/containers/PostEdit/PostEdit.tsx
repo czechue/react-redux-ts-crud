@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { FormValues, PostForm } from '../../components/PostForm/PostForm';
+import { PostForm } from '../../components/PostForm/PostForm';
 import { connect } from 'react-redux';
 import { editPost, fetchPost } from '../../actions/postsActions';
 import { Post } from '../../reducers/postsReducer';

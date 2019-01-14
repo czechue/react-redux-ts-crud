@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import {PostsAction, PostsActionTypes} from '../actions/postsActions';
-import {Reducer} from 'redux';
+import { PostsAction, PostsActionTypes } from '../actions/postsActions';
+import { Reducer } from 'redux';
 
 export interface Post {
     id: number;
@@ -56,7 +56,10 @@ export const postsReducer: Reducer<PostsState, PostsAction> = (
             };
 
         case PostsActionTypes.DELETE_POST_SUCCESS:
-            return { ...state, items: { ..._.omit(state.items, action.payload) } };
+            return {
+                ...state,
+                items: { ..._.omit(state.items, action.payload) }
+            };
 
         default:
             return state;

@@ -15,6 +15,7 @@ export interface Posts {
 export interface PostsState {
     items: Posts;
     loading: boolean;
+    error: String | null
 }
 
 const initialState = {

@@ -50,11 +50,11 @@ export const fetchPosts = (): ThunkResult<void> => async dispatch => {
     }
 };
 
-const handleFetchPosts = (dispatch: Dispatch<FetchPosts>) => {
+export const handleFetchPosts = (dispatch: Dispatch<FetchPosts>) => {
     dispatch({ type: PostsActionTypes.FETCH_POSTS });
 };
 
-const handleFetchPostsSuccess = (
+export const handleFetchPostsSuccess = (
     dispatch: Dispatch<FetchPostsSuccess>,
     response: Posts
 ) => {
@@ -64,7 +64,7 @@ const handleFetchPostsSuccess = (
     });
 };
 
-const handleFetchPostsFail = (dispatch: Dispatch<FetchPostsFail>) => {
+export const handleFetchPostsFail = (dispatch: Dispatch<FetchPostsFail>) => {
     dispatch({
         type: PostsActionTypes.FETCH_POSTS_FAIL
     });
@@ -95,7 +95,7 @@ export const fetchPost = (id: number): ThunkResult<void> => async dispatch => {
     }
 };
 
-const handleFetchPost = (dispatch: Dispatch<FetchPost>) => {
+export const handleFetchPost = (dispatch: Dispatch<FetchPost>) => {
     dispatch({ type: PostsActionTypes.FETCH_POST });
 };
 
